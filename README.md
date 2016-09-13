@@ -2,7 +2,7 @@
 
 Simple game built in HTML, CSS and JS.
 
-----------------------------------------
+-----------------------------------------
 
 Rules of the game:
 
@@ -18,4 +18,4 @@ Rules of the game:
 
 6) After eating each coin Furry SPEEDS UP.
 
-7) To try again refresh the page.# Furry-game
+7) To try again refresh the page.
