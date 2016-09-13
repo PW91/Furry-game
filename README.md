@@ -1,4 +1,4 @@
-#Furry game
+#Furry-game
 
 Simple game built in HTML, CSS and JS.
 
