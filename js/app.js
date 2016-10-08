@@ -1,17 +1,20 @@
-// DEFINICJA FUNKCJI GAME:
+"use strict";
+
+// GAME FUNCTION DEFINITION:
 
 function game() {
-    var board = document.querySelectorAll("#board div"),
+    var boardFields = document.querySelectorAll("#board div"),
         difficultyLevel = 300,
         score = 0,
         furryInfiniteMove = setInterval(furryMovement, difficultyLevel),
-        coin = new Coin(board),
-        furry = new Furry(),
-        i;
+        coin = new Coin(boardFields),
+        furry = new Furry();
     
+    // FURRY DIRECTION FUNCTION DEFINITION:
+
     function furryDirection() {
-        var myPressedButton = event.which;
-        switch(myPressedButton) {
+        var pressedButton = event.which;
+        switch (pressedButton) {
             case 37:
                 furry.directionArray = [-1,0];
             break;
@@ -24,29 +27,30 @@ function game() {
             case 40:
                 furry.directionArray = [0,1];
             break;
-        };
-    };
+        }
+    }
+
+    // FURRY MOVEMENT FUNCTION DEFINITION:
   
     function furryMovement() {
-        for (i = 0; i < board.length; i++) {
-            if (board[i].classList.contains("furry")) {
-                board[i].classList.remove("furry");
-            };
-        };
+        for (var i = 0; i < boardFields.length; i++) {
+            if (boardFields[i].classList.contains("furry")) {
+                boardFields[i].classList.remove("furry");
+            }
+        }
 
         furry.x = furry.x + furry.directionArray[0];
         furry.y = furry.y + furry.directionArray[1];
 
         if (furry.x < 0 || furry.x > 9 || furry.y < 0 || furry.y > 9) {
-            document.querySelector("#message").style.visibility = "visible";
-            document.querySelector("#message").style.color = "red";
-            document.querySelector("#message").innerHTML = "GAME OVER!";
-            board[coin.position].classList.remove("coin");
+            document.querySelector(".overlay.gameover").classList.add("visible");
+            document.querySelector("#board").classList.add("gameover-border");    
 
-            for (i = 0; i < board.length; i++) {
-                board[i].style.border = "4px solid red";         
-            };
+            for (var i = 0; i < boardFields.length; i++) {
+                boardFields[i].classList.add("gameover-border");         
+            }
 
+            boardFields[coin.position].classList.remove("coin");
             clearInterval(furryInfiniteMove);
             document.removeEventListener("keydown", furryDirection);
 
@@ -54,20 +58,21 @@ function game() {
             var furryPosition = indexPosition(furry.x, furry.y);
 
             if (furryPosition === coin.position) {
-                board[furryPosition].classList.add("furry");   
+                boardFields[furryPosition].classList.add("furry");   
                 score = score + 1;
-                document.querySelector("#score").innerHTML = score;
+
+                document.querySelector("#current-score").innerHTML = score;
+                document.querySelector("#final-score").innerHTML = score;
 
                 if (score === 10) {
-                    for (i = 0; i < board.length; i++) {
-                        board[i].style.border = "4px solid green";
-                        board[i].classList.remove("coin", "furry"); 
-                    };
+                    document.querySelector(".overlay.win").classList.add("visible");
+                    document.querySelector("#board").classList.add("win-border");
 
-                    document.querySelector("#message").style.visibility = "visible";
-                    document.querySelector("#message").style.color = "green";
-                    document.querySelector("#message").innerHTML = "YOU WON!";
-
+                    for (var i = 0; i < boardFields.length; i++) {
+                        boardFields[i].classList.add("win-border");
+                        boardFields[i].classList.remove("coin", "furry"); 
+                    }
+          
                     clearInterval(furryInfiniteMove);
                     document.removeEventListener("keydown", furryDirection);
 
@@ -75,51 +80,90 @@ function game() {
                     clearInterval(furryInfiniteMove);
                     difficultyLevel = 0.8 * difficultyLevel;
                     furryInfiniteMove = setInterval(furryMovement, difficultyLevel);
-                    coin = new Coin(board);
-                };
-
+                    coin = new Coin(boardFields);
+                }
             } else {
-                board[furryPosition].classList.add("furry");
-            };
-        };  
-    };
+                boardFields[furryPosition].classList.add("furry");
+            }
+        }
+    }
     
     document.addEventListener("keydown", furryDirection);
-};
+}
 
-// DEFINICJA FUNKCJI INDEXPOSITION:
+// INDEX POSITION FUNCTION DEFINITION:
 
 function indexPosition(x, y) {
     return x + y * 10;
-};
+}
 
-// DEFINICJA OBIEKTU FURRY:
+// FURRY OBJECT DEFINITION:
 
 var Furry = function() {
     this.x = 0;
     this.y = 0;
     this.directionArray = [0,1];
-};
+}
 
-// DEFINICJA OBIEKTU COIN:
+// COIN OBJECT DEFINITION:
 
-var Coin = function(board) {
+var Coin = function(boardFields) {
     var x = Math.floor(Math.random() * 10),
         y = Math.floor(Math.random() * 10);
 
     this.position = indexPosition(x, y);
 
-    for (i = 0; i < board.length; i++) {
-        if(board[i].classList.contains("coin")) {
-            board[i].classList.remove("coin");
-        };
-    };
+    for (var i = 0; i < boardFields.length; i++) {
+        if(boardFields[i].classList.contains("coin")) {
+            boardFields[i].classList.remove("coin");
+        }
+    }
 
-    board[this.position].classList.add("coin");
-};
+    boardFields[this.position].classList.add("coin");
+}
 
-// WYWOŁANIE FUNKCJI GAME:
+// DOM CONTENT LOADED EVENT LISTENER:
 
 document.addEventListener("DOMContentLoaded", function() {
-    game();
-});
+
+    var startButton = document.querySelector("#start-button"),
+        tryAgainButton = document.querySelector("#try-again-button"),
+        playAgainButton = document.querySelector("#play-again-button"),
+        currentScore = document.querySelector("#current-score"),
+        finalScore = document.querySelector("#final-score"),
+        boardFields = document.querySelectorAll("#board div"),
+        boardContainer = document.querySelector("#board");
+
+    // START BUTTON EVENT LISTENER:
+
+    startButton.addEventListener("click", function() {
+        this.parentElement.parentElement.classList.remove("visible");
+        game();
+    })
+
+    // TRY AGAIN BUTTON LISTENER:
+
+    tryAgainButton.addEventListener("click", function () {
+        repeatButton(this, "gameover-border");
+    })
+
+    // PLAY AGAIN BUTTON LISTENER:
+
+    playAgainButton.addEventListener("click", function () {
+        repeatButton(this, "win-border");
+    })
+
+    // REPEAT BUTTON FUNCTION DEFINITION:
+    
+    function repeatButton (self, borderClass) {
+        self.parentElement.parentElement.classList.remove("visible");
+
+        for (var i = 0; i < boardFields.length; i++) {
+            boardFields[i].classList.remove(borderClass);         
+        };
+        boardContainer.classList.remove(borderClass)
+        currentScore.innerHTML = "0";
+        finalScore.innerHTML = "0";
+        game();
+    }
+})

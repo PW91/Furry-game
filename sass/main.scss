@@ -1,0 +1,161 @@
+/* GENERAL */
+
+* {
+    box-sizing: border-box;
+
+    &:focus {
+    	outline: none;
+    }
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    color: white;
+}
+
+/* OVERLAYS */
+
+.overlay {
+	width: 100vw;
+	height: 100vh;
+	background-color: rgba(0,0,0, 0.8);
+	position: fixed;
+	top: 0;
+	left: 0;
+	text-align: center;
+	justify-content: center;
+	align-items: center;
+	display: none;
+
+	button {
+		background-color: transparent;
+		border: 1px solid white;
+		color: white;
+		font-size: 32px;
+		padding: 15px 40px;
+		margin-left: auto;
+		margin-right: auto;
+		margin-top: 40px;
+		font-weight: bold;
+		transition: all 300ms ease-in-out;
+
+		&:hover {
+			background-color: white;
+			color: black;
+		}
+	}
+}
+
+.overlay-container {
+	padding: 40px;
+	width: 680px;
+
+	h1, h2 {
+		font-size: 50px;
+		margin: 0 0 40px 0;	
+	}
+
+	p {
+		font-size: 24px;
+		margin-bottom: 40px;
+		font-weight: bold;		
+	}
+}
+
+#start-instructions {
+	width: 500px;
+	margin-left: auto;
+	margin-right: auto;
+
+	ol {
+		text-align: left;
+		font-style: italic;
+
+		li {
+			margin-top: 20px;
+			font-size: 18px;
+			text-align: left;
+		}
+	}
+}
+
+#try-again-button, #play-again-button {
+	margin-top: 0;
+}
+
+.visible {
+	display: flex;
+}
+
+/* GAME */
+
+#game-container {
+	width: 100vw;
+	height: 100vh;
+	background-color: #ff5722;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-wrap: wrap;
+
+	&>div {
+		text-align: center;
+		font-size: 32px;
+	}
+}
+
+#board {
+	width: 700px;
+	height: 700px;
+	border: 3px solid #8bc34a;
+	display: flex;
+	justify-content: space-around;
+	flex-wrap: wrap;
+	box-sizing: content-box;
+	box-shadow: 0px 5px 8px rgba(0, 0, 0, 0.3);
+
+	&.gameover-border {
+		background-color: black;
+		border-color: #ff5722;
+		box-shadow: none;
+	}
+
+	&.win-border {
+		background-color: white;
+		border-color: #ff5722;
+		box-shadow: none;
+	}
+
+	div {
+		width: 70px;
+		height: 70px;
+		background-color: #689f38;
+		border: 3px solid #8bc34a;
+
+		&.gameover-border {
+			background-color: black;
+			border-color: #ff5722;		
+		}
+
+		&.win-border {
+			background-color: white;
+			border-color: #ff5722;
+		}
+	}
+}
+
+.furry {
+	background-image: url("../images/furry.png");
+	background-repeat: no-repeat;
+	background-size: 90%;
+	background-position: center;
+}
+
+.coin {
+	background-image: url("../images/coin.png");
+	background-repeat: no-repeat;
+	background-size: 70%;
+	background-position: center;
+}
