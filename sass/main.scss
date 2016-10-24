@@ -50,7 +50,7 @@ body {
 
 .overlay-container {
 	padding: 40px;
-	width: 680px;
+	width: 40vw;
 
 	h1, h2 {
 		font-size: 50px;
@@ -107,8 +107,8 @@ body {
 }
 
 #board {
-	width: 700px;
-	height: 700px;
+	width: 40vw;
+	height: 40vw;
 	border: 3px solid #8bc34a;
 	display: flex;
 	justify-content: space-around;
@@ -129,8 +129,8 @@ body {
 	}
 
 	div {
-		width: 70px;
-		height: 70px;
+		width: 4vw;
+		height: 4vw;
 		background-color: #689f38;
 		border: 3px solid #8bc34a;
 
